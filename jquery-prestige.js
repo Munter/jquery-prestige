@@ -1,8 +1,8 @@
 (function ($) {
     var offset = 10,
-        getFileInput = function (callback) {
+        getFileInput = function (callback, options) {
         var div = $('<div class="jquery-prestige"></div>'),
-            input = $('<input type="file">)').appendTo(div);
+            input = $('<input type="file" name="' + (options.name || 'file') + '">)').appendTo(div);
 
         div.css({
             'position': 'absolute',
@@ -51,6 +51,8 @@
         var self = $(this),
             position;
 
+        options = options || {};
+
         if (self.getComputed) {
             position = self.getComputed().position;
         }
@@ -65,7 +67,7 @@
             var input = self.data('prestige');
 
             if (!input) {
-                input = getFileInput(callback);
+                input = getFileInput(callback, options);
                 input.on('change', function (e) {
                     self.removeData('prestige');
                 });
