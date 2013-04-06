@@ -1,20 +1,25 @@
 (function ($) {
     var getFileInput = function (area) {
-        var input = $('<div><input type="file" class="jquery-prestige"><div>');
+        var input = $('<div class="jquery-prestige"><input type="file"><div>'),
+            d = area.dimensions;
 
         input.css({
             'position': 'absolute',
-            'opacity': '0.5',
+            'top': d.top + 'px',
+            'left': d.left + 'px',
+            'width': d.right - d.left + 'px',
+            'height': d.bottom - d.top + 'px',
+            'opacity': '0',
             'z-index': '20000',
-            'width': '24px',
             'overflow': 'hidden'
         });
 
         input.find('input').css({
+            'position': 'absolute',
+            'margin-top': '-10px',
+            'margin-left': '-10px',
             'text-align': 'right'
         });
-
-        input.attr('width', '10');
 
         return input;
     };
@@ -61,7 +66,7 @@
 
                         if (area.inside(e)) {
                             input.show();
-                            input.css(point);
+                            input.find('input').css(point);
                         } else {
                             input.hide();
                         }
