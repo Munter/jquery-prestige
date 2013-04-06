@@ -1,59 +1,85 @@
-/*jslint onevar:off*/
+(function ($) {
+    var getFileInput = function (area) {
+        var input = $('<div><input type="file" class="jquery-prestige"><div>');
 
-$.fn.area = function () {
-    var offset = this.offset(),
-        height = this.height(),
-        width = this.width(),
-        area = {
-            top: offset.top,
-            right: offset.left + width,
-            bottom: offset.top + height,
-            left: offset.left
-        };
+        input.css({
+            'position': 'absolute',
+            'opacity': '0.5',
+            'z-index': '20000',
+            'width': '24px',
+            'overflow': 'hidden'
+        });
 
-    area.inside = function (event) {
-        var left = event.pageX,
-            top = event.pageY;
-        return left < area.right &&
-            left > area.left &&
-            top < area.bottom &&
-            top > area.top;
+        input.find('input').css({
+            'text-align': 'right'
+        });
+
+        input.attr('width', '10');
+
+        return input;
     };
 
-    return area;
-};
-
-function getFileInput() {
-    var input = $('<input type="file">');
-
-    input.css({
-        'position': 'absolute',
-        'z-index': '20000',
-        'opacity': '0.5',
-        'outline': '1px solid red',
-        'text-align': 'right'
-    });
-
-    input.attr('width', '10');
-
-    return input;
-}
-
-var input = getFileInput();
-$(document).one('mouseover', '.prestige', function (e) {
-    var area = $(this).area(),
-        handler = function (e) {
-            var point = {
-                top: e.pageY - 12,
-                left: e.pageX - 12
+    // Helper to determine when an event is inside an elements coordinates
+    $.fn.area = function () {
+        var offset = this.offset(),
+            height = this.height(),
+            width = this.width(),
+            area = {
+                top: offset.top,
+                right: offset.left + width,
+                bottom: offset.top + height,
+                left: offset.left
             };
-            if (area.inside(e)) {
-                input.css(point);
-                $(document.body).append(input);
-            } else {
-                input.remove();
-            }
+
+        area.inside = function (event) {
+            var left = event.pageX,
+                top = event.pageY;
+            return left < area.right &&
+                left > area.left &&
+                top < area.bottom &&
+                top > area.top;
         };
 
-    $(document).on('mousemove', handler);
-});
+        area.dimensions = area;
+
+        return area;
+    };
+
+    $.fn.prestige = function (callback, options) {
+        var self = $(this);
+
+        self.on('mouseover', function (e) {
+            if (!self.data('prestige')) {
+                var area = self.area(),
+                    input = getFileInput(area),
+                    handler = function (e) {
+                        var point = {
+                                top: e.pageY - 12,
+                                left: e.pageX - 12
+                            },
+                            input = self.data('prestige');
+
+                        if (area.inside(e)) {
+                            input.show();
+                            input.css(point);
+                        } else {
+                            input.hide();
+                        }
+                    };
+
+                self.data('prestige', input);
+
+                input.on('change', function (e) {
+                    $(document).off('mousemove', handler);
+                    self.removeData('prestige');
+                    this.remove();
+                    callback(e.target);
+                });
+
+                $(document.body).append(input);
+
+                $(document).on('mousemove', handler);
+            }
+        });
+    };
+}(window.jQuery));
