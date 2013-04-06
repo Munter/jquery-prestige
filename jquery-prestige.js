@@ -39,10 +39,6 @@
             });
         });
 
-        div.on('mouseout', function () {
-            $(this).hide();
-        });
-
         div.on('change', function (e) {
             $(this).remove();
             callback(e.target);
@@ -77,8 +73,6 @@
 
                 self.append(input);
             }
-
-            input.show();
         });
     };
 }(jQuery));
