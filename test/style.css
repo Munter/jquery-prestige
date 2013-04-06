@@ -4,4 +4,13 @@
     color: #CCC;
     text-align: center;
     line-height: 200px;
+    padding: 20px;
+}
+
+#fileInput:hover {
+    background: #234567;
+}
+
+#fileInput:active {
+    background: #012345;
 }

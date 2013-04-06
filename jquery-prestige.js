@@ -1,90 +1,84 @@
 (function ($) {
-    var getFileInput = function (area) {
-        var input = $('<div class="jquery-prestige"><input type="file"><div>'),
-            d = area.dimensions;
+    var offset = 10,
+        getFileInput = function (callback) {
+        var div = $('<div class="jquery-prestige"></div>'),
+            input = $('<input type="file">)').appendTo(div);
 
-        input.css({
+        div.css({
             'position': 'absolute',
-            'top': d.top + 'px',
-            'left': d.left + 'px',
-            'width': d.right - d.left + 'px',
-            'height': d.bottom - d.top + 'px',
+            'top': '0px',
+            'left': '0px',
+            'width': '100%',
+            'height': '100%',
             'opacity': '0',
             'z-index': '20000',
             'overflow': 'hidden'
         });
 
-        input.find('input').css({
+        input.css({
             'position': 'absolute',
-            'margin-top': '-10px',
-            'margin-left': '-10px',
+            'margin-top': -offset + 'px',
+            'margin-left': -offset + 'px',
             'text-align': 'right'
         });
 
-        return input;
-    };
+        div.on('mousemove', function (e) {
+            var top = e.offsetY,
+                left = e.offsetX,
+                relative;
 
-    // Helper to determine when an event is inside an elements coordinates
-    $.fn.area = function () {
-        var offset = this.offset(),
-            height = this.height(),
-            width = this.width(),
-            area = {
-                top: offset.top,
-                right: offset.left + width,
-                bottom: offset.top + height,
-                left: offset.left
-            };
+            if (!$(e.target).hasClass('.jquery-prestige')) {
+                relative = $(e.target).position();
+                top += relative.top - offset;
+                left += relative.left - offset;
+            }
 
-        area.inside = function (event) {
-            var left = event.pageX,
-                top = event.pageY;
-            return left < area.right &&
-                left > area.left &&
-                top < area.bottom &&
-                top > area.top;
-        };
+            input.css({
+                top: top,
+                left: left
+            });
+        });
 
-        area.dimensions = area;
+        div.on('mouseout', function () {
+            $(this).hide();
+        });
 
-        return area;
+        div.on('change', function (e) {
+            $(this).remove();
+            callback(e.target);
+        });
+
+        return div;
     };
 
     $.fn.prestige = function (callback, options) {
-        var self = $(this);
+        var self = $(this),
+            position;
+
+        if (self.getComputed) {
+            position = self.getComputed().position;
+        }
+
+        if (!position || position === 'static') {
+            self.css({
+                position: 'relative'
+            });
+        }
 
         self.on('mouseover', function (e) {
-            if (!self.data('prestige')) {
-                var area = self.area(),
-                    input = getFileInput(area),
-                    handler = function (e) {
-                        var point = {
-                                top: e.pageY - 12,
-                                left: e.pageX - 12
-                            },
-                            input = self.data('prestige');
+            var input = self.data('prestige');
 
-                        if (area.inside(e)) {
-                            input.show();
-                            input.find('input').css(point);
-                        } else {
-                            input.hide();
-                        }
-                    };
-
+            if (!input) {
+                input = getFileInput(callback);
+                input.on('change', function (e) {
+                    self.removeData('prestige');
+                });
                 self.data('prestige', input);
 
-                input.on('change', function (e) {
-                    $(document).off('mousemove', handler);
-                    self.removeData('prestige');
-                    this.remove();
-                    callback(e.target);
-                });
-
-                $(document.body).append(input);
-
-                $(document).on('mousemove', handler);
+                self.append(input);
             }
+
+            input.show();
         });
     };
-}(window.jQuery));
+}(jQuery));
