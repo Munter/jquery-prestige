@@ -1,51 +1,56 @@
 (function ($) {
     var offset = 10,
         getFileInput = function (callback, options) {
-        var div = $('<div class="jquery-prestige"></div>'),
-            input = $('<input type="file" name="' + (options.name || 'file') + '">)').appendTo(div);
+            var div = $('<div class="jquery-prestige"></div>'),
+                input = $('<input type="file" name="' + (options.name || 'file') + '">)').appendTo(div),
+                width;
 
-        div.css({
-            'position': 'absolute',
-            'top': '0px',
-            'left': '0px',
-            'width': '100%',
-            'height': '100%',
-            'opacity': '0',
-            'z-index': '20000',
-            'overflow': 'hidden'
-        });
-
-        input.css({
-            'position': 'absolute',
-            'margin-top': -offset + 'px',
-            'margin-left': -offset + 'px',
-            'text-align': 'right'
-        });
-
-        div.on('mousemove', function (e) {
-            var top = e.offsetY,
-                left = e.offsetX,
-                relative;
-
-            if (!$(e.target).hasClass('.jquery-prestige')) {
-                relative = $(e.target).position();
-                top += relative.top - offset;
-                left += relative.left - offset;
-            }
+            div.css({
+                'position': 'absolute',
+                'top': '0px',
+                'left': '0px',
+                'width': '100%',
+                'height': '100%',
+                'opacity': '0',
+                'z-index': '20000',
+                'overflow': 'hidden'
+            });
 
             input.css({
-                top: top,
-                left: left
+                'position': 'absolute',
+                'margin-top': -offset + 'px',
+                'margin-left': -offset + 'px',
+                outline: '1px solid red'
             });
-        });
 
-        div.on('change', function (e) {
-            $(this).remove();
-            callback(e.target);
-        });
+            div.on('mousemove', function (e) {
+                var top = e.offsetY,
+                    left = e.offsetX,
+                    relative;
 
-        return div;
-    };
+                if (!width) {
+                    width = input.width();
+                }
+
+                if (!$(e.target).hasClass('.jquery-prestige')) {
+                    relative = $(e.target).position();
+                    top += relative.top;
+                    left += relative.left;
+                }
+
+                input.css({
+                    top: top - offset,
+                    left: left - width + 2 * offset
+                });
+            });
+
+            div.on('change', function (e) {
+                $(this).remove();
+                callback(e.target);
+            });
+
+            return div;
+        };
 
     $.fn.prestige = function (callback, options) {
         var self = $(this),
