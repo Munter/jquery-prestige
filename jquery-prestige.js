@@ -12,7 +12,7 @@
                 'width': '100%',
                 'height': '100%',
                 'opacity': '0',
-                'z-index': '20000',
+                'z-index': '9998',
                 'overflow': 'hidden'
             });
 
