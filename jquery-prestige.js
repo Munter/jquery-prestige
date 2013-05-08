@@ -81,5 +81,7 @@
                 self.append(input);
             }
         });
+
+        return this;
     };
 }(jQuery));
