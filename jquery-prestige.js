@@ -3,9 +3,10 @@
         getFileInput = function (callback, options) {
             var div = $('<div class="jquery-prestige"></div>'),
                 input = $('<input type="file" name="' + (options.name || 'file') + '">)').appendTo(div),
+                css = options.css || {},
                 width;
 
-            div.css({
+            div.css($.extend({
                 'position': 'absolute',
                 'top': '0px',
                 'left': '0px',
@@ -14,7 +15,7 @@
                 'opacity': '0',
                 'z-index': '9998',
                 'overflow': 'hidden'
-            });
+            }, css));
 
             input.css({
                 'position': 'absolute',
