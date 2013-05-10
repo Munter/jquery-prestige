@@ -33,7 +33,7 @@
                     width = input.width();
                 }
 
-                if (!$(e.target).hasClass('.jquery-prestige')) {
+                if (!$(e.target).hasClass('jquery-prestige')) {
                     relative = $(e.target).position();
                     top += relative.top;
                     left += relative.left;
@@ -69,17 +69,18 @@
             });
         }
 
-        self.on('mouseover', function (e) {
-            var input = self.data('prestige');
+        self.on('mouseover', function () {
+            var container = $(this),
+                input = container.data('prestige');
 
             if (!input) {
                 input = getFileInput(callback, options);
-                input.on('change', function (e) {
-                    self.removeData('prestige');
+                input.on('change', function () {
+                    container.removeData('prestige');
                 });
-                self.data('prestige', input);
+                container.data('prestige', input);
 
-                self.append(input);
+                container.append(input);
             }
         });
 
