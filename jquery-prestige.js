@@ -25,18 +25,12 @@
             });
 
             div.on('mousemove', function (e) {
-                var top = e.offsetY,
-                    left = e.offsetX,
-                    relative;
+                var position = $(this).position(),
+                    top = e.clientY - position.top,
+                    left = e.clientX - position.left;
 
                 if (!width) {
                     width = input.width();
-                }
-
-                if (!$(e.target).hasClass('jquery-prestige')) {
-                    relative = $(e.target).position();
-                    top += relative.top;
-                    left += relative.left;
                 }
 
                 input.css({
