@@ -25,16 +25,16 @@
             });
 
             div.on('mousemove', function (e) {
-                var position = $(this).position(),
-                    top = e.clientY - position.top,
-                    left = e.clientX - position.left;
+                var position = $(this).offset(),
+                    top = e.pageY - position.top,
+                    left = e.pageX - position.left;
 
                 if (!width) {
                     width = input.width();
                 }
 
                 input.css({
-                    top: top - offset,
+                    top: top,
                     left: left - width + 2 * offset
                 });
             });
