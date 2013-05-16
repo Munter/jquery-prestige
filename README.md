@@ -18,5 +18,6 @@ $('#myButton').prestige(function (input) {
 Caveat: The file input is removed from the DOM immediately after the callback function has been called.
 
 
-== License
+License
+=======
 MIT
