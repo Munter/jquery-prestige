@@ -19,5 +19,5 @@ Caveat: The file input is removed from the DOM immediately after the callback fu
 
 
 License
-=======
+-------
 MIT
