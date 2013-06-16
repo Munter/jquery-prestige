@@ -1,0 +1,25 @@
+{
+  "name": "jquery-prestige",
+  "version": "1.0.0",
+  "description": "A jQuery plugin that lets you make any DOM-element into a clickable file input easily.",
+  "main": "jquery-prestige.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Munter/jquery-prestige.git"
+  },
+  "keywords": [
+    "jquery",
+    "file",
+    "input"
+  ],
+  "author": "Peter Müller <munter@fumle.dk>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "13f422ed7e93cdd4912ce1f57f2e9d508dbce245"
+}
