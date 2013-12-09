@@ -21,3 +21,7 @@ Caveat: The file input is removed from the DOM immediately after the callback fu
 License
 -------
 MIT
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Munter/jquery-prestige/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
