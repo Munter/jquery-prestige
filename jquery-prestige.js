@@ -2,7 +2,11 @@
     var offset = 10,
         getFileInput = function (callback, options) {
             var div = $('<div class="jquery-prestige"></div>'),
-                input = $('<input type="file" name="' + (options.name || 'file') + '">)').appendTo(div),
+                input = $('<input />', {
+                    type: 'file',
+                    name: (options.name || 'file'),
+                    multiple: options.multiple ? 'multiple': false
+                }).appendTo(div),
                 css = options.css || {},
                 width;
 
