@@ -10,10 +10,6 @@
                 css = options.css || {},
                 width;
 
-            if (options.multiple) {
-                input.attr('multiple', true);
-            }
-
             div.css($.extend({
                 'position': 'absolute',
                 'top': '0px',
