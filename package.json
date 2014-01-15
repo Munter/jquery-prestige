@@ -1,6 +1,6 @@
 {
   "name": "jquery-prestige",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A jQuery plugin that lets you make any DOM-element into a clickable file input easily.",
   "main": "jquery-prestige.js",
   "directories": {
